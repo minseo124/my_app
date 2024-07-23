@@ -2,6 +2,7 @@ const express = require('express');
 var cors = require('cors')
 const app = express();
 
+app.use(express.static('public'))
 app.use(cors());
 /* request body로 전달되는 json/body를 express 서버가 이해할 수 있게 미들웨어를 등록한다 */
 app.use(express.json());
