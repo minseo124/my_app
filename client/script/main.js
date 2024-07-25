@@ -43,3 +43,5 @@ loginForm.addEventListener("submit", function (e) {
   }
   // 4. 응답을 받아서 HTML을 조작합니다 (로그인/로그아웃)
 }); 
+
+//
