@@ -36,28 +36,32 @@ app.get('/', function (req, res) {
 app.get('/main', function (req, res) {
   res.sendFile(__dirname + "/public/main.html");
 });
-app.post('/login', function (req, res) {
-  let { user_id, user_pw } = req.body; //각각 id, pw 정보를 나누어서 저장
-  console.log(user_id, user_pw);
-  let foundUser = users.filter(user => user.id === user_id && user.pw === user_pw);
-  if (foundUser) {
-    res.status(200).json({
-      message: "login ok",
-      isLogin: true,
-      user: foundUser.nick,
-      redirect_url: "/home"
-    });
+app.post('/login', function(req, res) {
+  let {user_id, user_pw } = req.body; // 각각 id, pw 정보를 나누어서 저장
+
+  console.log("로그인 시도 : ", {user_id, user_pw});
+
+  let foundUser = users.filter(user => user.id == user_id && user.pw == user_pw);
+
+  // 빈 배열의 경우 갯수 정보를 .length 속성으로 파악하고 이것의 길이값을 기준으로 처리    
+
+  if (foundUser.length !== 0) {
+      res.json({
+          message: "login ok",
+          isLogin: true,
+          user: foundUser.nick,
+          redirect_url : "contact.html"
+      });
   } else {
-    res.status(400).json({
-      message: "login fail",
-      isLogin: false,
-      user: null,
-      redirect_url: null
-    });
-  }
-  // 기본 회원 정보와 전송 받은 정보를 비교 --> 일치 : 로그인 성공, 불일치 : 로그인 실패
-  // 첫 페이지로 이동시키거나, 경고를 하거나..후속조치
+      res.status(401).json({
+          message: "login fail",
+          user: null,
+          redirect_url : null
+      });
+  }   
 })
+// 기본 회원 정보와 전송 받은 정보를 비교 --> 일치 : 로그인 성공, 불일치 : 로그인 실패
+// 첫 페이지로 이동시키거나, 경고를 하거나..후속조치
 app.get('/chart', function (req, res) {
   res.json([
     {
